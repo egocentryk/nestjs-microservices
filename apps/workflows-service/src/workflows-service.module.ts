@@ -4,6 +4,7 @@ import { WorkflowsServiceService } from './workflows-service.service'
 import { WorkflowsModule } from './workflows/workflows.module'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
       inject: [ConfigService],
     }),
     WorkflowsModule,
+    HealthModule,
   ],
   controllers: [WorkflowsServiceController],
   providers: [WorkflowsServiceService],
