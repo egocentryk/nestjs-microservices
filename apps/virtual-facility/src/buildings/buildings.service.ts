@@ -17,7 +17,7 @@ export class BuildingsService {
     private readonly buildingsRepository: Repository<Building>,
     @Inject(WORKFLOWS_SERVICE)
     private readonly workflowsService: ClientProxy,
-    private readonly dataSource: DataSource,
+    private readonly dataSource: DataSource, // 👈
   ) {}
 
   async findAll(): Promise<Building[]> {
@@ -33,13 +33,13 @@ export class BuildingsService {
   }
 
   async create(createBuildingDto: CreateBuildingDto): Promise<Building> {
+    // 👈
     const queryRunner = this.dataSource.createQueryRunner()
     await queryRunner.connect()
     await queryRunner.startTransaction()
 
     const buildingsRepository = queryRunner.manager.getRepository(Building)
     const outboxRepository = queryRunner.manager.getRepository(Outbox)
-
     try {
       const building = buildingsRepository.create({
         ...createBuildingDto,
@@ -49,7 +49,7 @@ export class BuildingsService {
       await outboxRepository.save({
         type: 'workflows.create',
         payload: {
-          name: 'My Workflow',
+          name: 'My workflow',
           buildingId: building.id,
         },
         target: WORKFLOWS_SERVICE.description,
