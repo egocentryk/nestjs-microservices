@@ -19,7 +19,7 @@ import { NATS_MESSAGE_BROKER, NOTIFICATIONS_SERVICE } from './constants'
         transport: Transport.RMQ,
         options: {
           urls: [process.env.RABBITMQ_URL!],
-          queue: 'notifications_queue',
+          queue: 'notifications-service',
         },
       },
     ]),
